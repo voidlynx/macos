@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>are you on macOS?</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 5vh;
+        }
+        canvas {
+            display: none;
+        }
+    </style>
+    <script>
+        function drawRender() {
+            const ctx = document.getElementById("canvass").getContext("2d");
+            ctx.fillStyle = "black";
+            ctx.font = "48px Chalkboard";
+            ctx.fillText("macOS",10,50);
+            ctx.font = "48px Skia";
+            ctx.fillText("macOS",10,100);
+        };
+        async function drawOrigin() {
+            const ctx = document.getElementById("canvasr").getContext("2d");
+            origin = new Image();
+            origin.src = "/canvas.png";
+            origin.onload = function(){
+                ctx.drawImage(origin,0,0)
+            }
+            await new Promise(r => setTimeout(r, 200));
+        }
+        function renderAndCompare() {
+            const canvass = document.getElementById('canvass')
+            const rendered = canvass.toDataURL('image/png')
+            const canvasr = document.getElementById('canvasr')
+            const origin = canvasr.toDataURL('image/png')
+            const res = document.getElementById("result")
+            if (rendered === origin) {
+                res.innerHTML = "yes";
+                res.style = "color: green;"
+            } else {
+                res.innerHTML = "no";
+                res.style = "color: darkred;"
+            }
+        };
+        window.onload = async function() {
+            drawRender();
+            await drawOrigin();
+            renderAndCompare();
+        };
+    </script>
+</head>
+<body>
+    <h1>are you on macOS?</h1>
+    <h2 id="result">hmmm</h2>
+    <canvas id="canvass" width="250" height="120"></canvas>
+    <canvas id="canvasr" width="250" height="120"></canvas>
+</body>
+</html>
